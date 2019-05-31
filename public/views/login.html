@@ -1,0 +1,47 @@
+{{define "login"}}
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Sample Quicksight Embeds</title>
+    <link rel="icon" type="image/ico" href="https://a0.awsstatic.com/main/images/site/fav/favicon.ico" />
+
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700|Open+Sans:300,300i,400,400i,700,700i" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/css/styles.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="parent">
+      <div class="cont">
+        <div class="form sign-in">
+          <h2>Welcome back,</h2>
+          <label>
+            <span>Email</span>
+            <input type="email" />
+          </label>
+          <label>
+            <span>Password</span>
+            <input type="password" />
+          </label>
+          <button type="button" class="submit">Sign In</button>
+        </div>
+        <div class="sub-cont">
+          <div class="img">
+            <div class="img__text m--up">
+              <h2>New here?</h2>
+              <p>Unfortunately, sign-ups are currently disabled.</p>
+            </div>
+            <div class="img__text m--in">
+              <h2>One of us?</h2>
+              <p>If you already has an account, just sign in. We've missed you!</p>
+            </div>
+            <div class="img__btn">
+              <span class="m--up">Sign Up</span>
+              <span class="m--in">Sign In</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+{{end}}
