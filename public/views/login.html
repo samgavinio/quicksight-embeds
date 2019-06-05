@@ -23,6 +23,13 @@
               <span>Password</span>
               <input type="password" name="password" required/>
             </label>
+            {{if .Error}}
+            <label>
+              <div class="alert alert-danger" role="alert">
+                {{ .Error }}
+              </div>
+            <label>
+            {{end}}
             <button type="submit" class="submit" form="login-form">Sign In</button>
           </form>
         </div>

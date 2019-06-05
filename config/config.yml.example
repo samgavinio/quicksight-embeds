@@ -1,5 +1,8 @@
+SESSION_KEY: "1234567890ABCDEFGHIJKLMNOPQRSTUV"
 AWS_ACCOUNT_ID: "1111222333"
+AWS_REGION: "ap-southeast-1"
 COGNITO_CLIENT_ID: "xxxxxxxxxxxxxxxxx"
+COGNITO_USER_POOL_ID: "ap-southeast-1_xxxxxxxx"
 QUICKSIGHT_IAM_ROLE_NAME: "QuickSightReaderRole"
 QUICKSIGHT_GROUP_NAME: "embed-readers"
 QUICKSIGHT_DASHBOARD_ID: "xxxxx-xxx-xxxx-xxxx-xxxxxxx"
