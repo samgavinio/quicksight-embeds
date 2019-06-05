@@ -1,0 +1,5 @@
+AWS_ACCOUNT_ID: "1111222333"
+COGNITO_CLIENT_ID: "xxxxxxxxxxxxxxxxx"
+QUICKSIGHT_IAM_ROLE_NAME: "QuickSightReaderRole"
+QUICKSIGHT_GROUP_NAME: "embed-readers"
+QUICKSIGHT_DASHBOARD_ID: "xxxxx-xxx-xxxx-xxxx-xxxxxxx"

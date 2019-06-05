@@ -6,8 +6,6 @@ import (
 
 	"bitbucket.com/turntwo/quicksight-embeds/config"
 	"bitbucket.com/turntwo/quicksight-embeds/web"
-	"github.com/aws/aws-sdk-go-v2/aws/endpoints"
-	"github.com/aws/aws-sdk-go-v2/aws/external"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 )
@@ -28,26 +26,7 @@ func main() {
 	e.Static("/assets", "public/assets")
 	e.Use(middleware.Logger())
 
-	cfg, err := external.LoadDefaultAWSConfig()
-	if err != nil {
-		panic("unable to load SDK config, " + err.Error())
-	}
-	cfg.Region = endpoints.ApSoutheast1RegionID
-
-	handler := web.NewHandler(config.Config{
-		AWS: config.AWS{
-			AccountId: "259921281957",
-			Config:    cfg,
-		},
-		Cognito: config.Cognito{
-			ClientId: "70smiki89gas0prcmog2vio1v5",
-		},
-		Quicksight: config.Quicksight{
-			RoleName:    "QuickSightReaderRole",
-			Group:       "embed-readers",
-			DashboardId: "cbda847a-4098-4cd6-ba25-23037b9b4586",
-		},
-	})
+	handler := web.NewHandler(config.New())
 	ah := web.AuthHandler{handler}
 
 	// Authentication Handlers

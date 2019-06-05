@@ -8,10 +8,6 @@ type Handler struct {
 }
 
 // NewHandler builds and returns a handler with the Config object
-func NewHandler(cfg config.Config) Handler {
-	if len(cfg.Quicksight.Namespace) == 0 {
-		cfg.Quicksight.Namespace = "default"
-	}
-
-	return Handler{Config: &cfg}
+func NewHandler(cfg *config.Config) Handler {
+	return Handler{Config: cfg}
 }
