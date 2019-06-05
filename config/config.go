@@ -42,6 +42,7 @@ func New() *Config {
 		panic("unable to load SDK config, " + err.Error())
 	}
 	cfg.Region = endpoints.ApSoutheast1RegionID
+	cfg.LogLevel = aws.LogDebug
 
 	return &Config{
 		AWS: AWS{

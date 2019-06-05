@@ -4,10 +4,11 @@ import (
 	"html/template"
 	"io"
 
-	"bitbucket.com/turntwo/quicksight-embeds/config"
-	"bitbucket.com/turntwo/quicksight-embeds/web"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+
+	"bitbucket.com/turntwo/quicksight-embeds/config"
+	"bitbucket.com/turntwo/quicksight-embeds/web"
 )
 
 type Template struct {
