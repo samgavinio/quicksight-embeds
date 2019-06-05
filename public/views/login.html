@@ -13,16 +13,18 @@
     <div class="parent">
       <div class="cont">
         <div class="form sign-in">
-          <h2>Welcome back,</h2>
-          <label>
-            <span>Email</span>
-            <input type="email" />
-          </label>
-          <label>
-            <span>Password</span>
-            <input type="password" />
-          </label>
-          <button type="button" class="submit">Sign In</button>
+          <form action="/authenticate" method="post" id="login-form">
+            <h2>Welcome back,</h2>
+            <label>
+              <span>Email</span>
+              <input type="text" name="email" required/>
+            </label>
+            <label>
+              <span>Password</span>
+              <input type="password" name="password" required/>
+            </label>
+            <button type="submit" class="submit" form="login-form">Sign In</button>
+          </form>
         </div>
         <div class="sub-cont">
           <div class="img">
