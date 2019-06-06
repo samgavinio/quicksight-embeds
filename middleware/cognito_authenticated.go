@@ -2,12 +2,17 @@ package middleware
 
 import (
 	"fmt"
+	"net/http"
 
 	"github.com/gorilla/sessions"
 	"github.com/labstack/echo/v4"
 
 	"bitbucket.com/turntwo/quicksight-embeds/config"
 )
+
+func onAuthFailure(c echo.Context) error {
+	return c.Redirect(http.StatusMovedPermanently, "/")
+}
 
 func CognitoAuthentication(store *sessions.CookieStore, cfg *config.Config) echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
@@ -19,7 +24,7 @@ func CognitoAuthentication(store *sessions.CookieStore, cfg *config.Config) echo
 				return echo.ErrInternalServerError
 			} else if sess.Values["cognito_access_token"] == nil || sess.Values["user_email"] == nil {
 				fmt.Println("Current session is not authenticated.")
-				return echo.ErrForbidden
+				return onAuthFailure(c)
 			} else {
 				v := JWTValidator{
 					Region:            cfg.AWS.Region,
@@ -28,7 +33,7 @@ func CognitoAuthentication(store *sessions.CookieStore, cfg *config.Config) echo
 				token, err := v.Validate(sess.Values["cognito_access_token"].(string))
 				if err != nil || !token.Valid {
 					fmt.Printf("Token is not valid: %v\n", err)
-					return echo.ErrUnauthorized
+					return onAuthFailure(c)
 				}
 			}
 			return next(c)

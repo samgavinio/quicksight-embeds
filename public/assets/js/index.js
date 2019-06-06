@@ -8,7 +8,6 @@ window.document.addEventListener('DOMContentLoaded', () => {
 });
 
 document.getElementById('change-parameter-btn').addEventListener('click', () => {
-    console.log(document.getElementById('parameter-value').value);
     dashboard.updateParameter({
         InstanceID: document.getElementById('parameter-value').value
     });
