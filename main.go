@@ -27,7 +27,7 @@ func main() {
 	e.Renderer = &Template{
 		templates: template.Must(template.ParseGlob("public/views/*.html")),
 	}
-	e.Static("/assets", "public/assets")
+	e.Static("/assets", "public/dist")
 
 	cfg := config.New()
 	sessionStore := sessions.NewCookieStore([]byte(cfg.SessionKey))

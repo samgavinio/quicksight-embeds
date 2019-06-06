@@ -1,0 +1,28 @@
+{
+  "name": "quicksight-embeds",
+  "version": "0.0.1",
+  "description": "Frontend resources for the Quicksight embedded dashboard demo.",
+  "main": "public/assets/index.js",
+  "scripts": {
+    "build": "webpack --config webpack.js --mode production",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Sam Gavinio <sggavini@amazon.ph>",
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "amazon-quicksight-embedding-sdk": "^1.0.3",
+    "webpack": "^4.29.3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.2.2",
+    "babel-eslint": "^10.0.1",
+    "babel-loader": "^8.0.5",
+    "css-loader": "^2.1.1",
+    "eslint": "^5.13.0",
+    "eslint-loader": "^2.1.2",
+    "mini-css-extract-plugin": "^0.5.0",
+    "optimize-css-assets-webpack-plugin": "^5.0.1",
+    "webpack-cli": "^3.2.3"
+  }
+}
