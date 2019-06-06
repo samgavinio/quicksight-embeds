@@ -15,6 +15,7 @@
     <!-- Custom fonts for this template-->
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <link rel="icon" type="image/ico" href="https://a0.awsstatic.com/main/images/site/fav/favicon.ico" />
 
     <!-- Custom styles for this template-->
     <link href="/assets/css/client.min.css" rel="stylesheet">
@@ -603,7 +604,30 @@
                     <p class="mb-0">Before working with this theme, you should become familiar with the Bootstrap framework, especially the utility classes.</p>
                   </div>
                 </div>
-
+              </div>
+            </div>
+            <div class="row">
+              <input type="hidden" id="dashboard-url" value="{{ .QuicksightUrl }}"/>
+              <div class="col-lg-12 mb-4" >
+                <div class="card shadow mb-4">
+                  <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Quicksight Embedded Dashboard</h6>
+                  </div>
+                  <div class="card-body">
+                    <div class="input-group">
+                      <label class="form-control small col-lg-4">Instance ID</label>
+                      <input type="text" class="col-lg-8 form-control bg-light border-0 small" placeholder="parameters" aria-label="Parameter" aria-describedby="basic-addon2" value="i-01f09713b0c232569" id="parameter-value">
+                      <div class="input-group-append">
+                        <button class="btn btn-primary" type="button" id="change-parameter-btn">
+                          <i class="fas fa-search fa-sm"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <br/>
+                    <div id="dashboard-container">
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -654,7 +678,7 @@
     </div>
 
     <!-- Bootstrap core JavaScript-->
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
     <!-- Page level plugins -->
@@ -666,6 +690,7 @@
     <script src="/assets/js/vendor/demo/chart-area-demo.js"></script>
     <script src="/assets/js/vendor/demo/chart-pie-demo.js"></script>
 
+    <script src="/assets/js/client.compiled.js"></script>
   </body>
 
 </html>

@@ -29,13 +29,17 @@ func (h *DashboardHandler) Index(c echo.Context) (err error) {
 	email := sess.Values["user_email"].(string)
 
 	// If EmbedUrl is in the session, use it instead
+	var url string
 	qsSessionKey := fmt.Sprintf("quicksight_embed_url_%s", email)
-	if sess.Values[qsSessionKey] == nil {
+	if sess.Values[qsSessionKey] != nil {
+		url = sess.Values[qsSessionKey].(string)
+	} else {
 		response, err := h.getDashboardUrl(email)
 		if err != nil {
 			fmt.Println(err)
 			return c.JSON(http.StatusBadRequest, map[string]string{"Error": "Bad Request."})
 		}
+		url = *response.EmbedUrl
 
 		// Store the EmbedUrl in session to avoid succeeding Quicksight interactions.
 		sess.Options = &sessions.Options{
@@ -48,7 +52,7 @@ func (h *DashboardHandler) Index(c echo.Context) (err error) {
 	}
 
 	return c.Render(http.StatusOK, "dashboard", map[string]interface{}{
-		"QuicksightUrl": sess.Values[qsSessionKey].(string),
+		"QuicksightUrl": url,
 	})
 }
 

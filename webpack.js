@@ -8,7 +8,7 @@ module.exports = {
   entry: {
     client: './public/assets/js/index.js'
   },
-  target: 'node',
+  target: 'web',
   output: {
     path: path.resolve('./public/dist'),
     filename: 'js/[name].compiled.js'
