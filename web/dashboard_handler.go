@@ -30,26 +30,26 @@ func (h *DashboardHandler) Index(c echo.Context) (err error) {
 
 	// If EmbedUrl is in the session, use it instead
 	qsSessionKey := fmt.Sprintf("quicksight_embed_url_%s", email)
-	if sess.Values[qsSessionKey] != nil {
-		return c.JSON(http.StatusOK, sess.Values[qsSessionKey].(string))
+	if sess.Values[qsSessionKey] == nil {
+		response, err := h.getDashboardUrl(email)
+		if err != nil {
+			fmt.Println(err)
+			return c.JSON(http.StatusBadRequest, map[string]string{"Error": "Bad Request."})
+		}
+
+		// Store the EmbedUrl in session to avoid succeeding Quicksight interactions.
+		sess.Options = &sessions.Options{
+			Path:     "/",
+			MaxAge:   3600,
+			HttpOnly: true,
+		}
+		sess.Values[qsSessionKey] = response.EmbedUrl
+		sess.Save(c.Request(), c.Response())
 	}
 
-	response, err := h.getDashboardUrl(email)
-	if err != nil {
-		fmt.Println(err)
-		return c.JSON(http.StatusBadRequest, map[string]string{"Error": "Bad Request."})
-	}
-
-	// Store the EmbedUrl in session to avoid succeeding Quicksight interactions.
-	sess.Options = &sessions.Options{
-		Path:     "/",
-		MaxAge:   3600,
-		HttpOnly: true,
-	}
-	sess.Values[qsSessionKey] = response.EmbedUrl
-	sess.Save(c.Request(), c.Response())
-
-	return c.JSON(http.StatusOK, response)
+	return c.Render(http.StatusOK, "dashboard", map[string]interface{}{
+		"QuicksightUrl": sess.Values[qsSessionKey].(string),
+	})
 }
 
 // Generates the Quicksight Embed URL. If the passed email does not yet exist in Quicksight a new user is provisioned.

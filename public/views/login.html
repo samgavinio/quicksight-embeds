@@ -1,56 +1,82 @@
 {{define "login"}}
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Sample Quicksight Embeds</title>
-    <link rel="icon" type="image/ico" href="https://a0.awsstatic.com/main/images/site/fav/favicon.ico" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700|Open+Sans:300,300i,400,400i,700,700i" rel="stylesheet">
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/assets/client.min.css" rel="stylesheet">
+    <title>Quicksight Demo</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="/assets/css/client.min.css" rel="stylesheet">
   </head>
-  <body>
-    <div class="parent">
-      <div class="cont">
-        <div class="form sign-in">
-          <form action="/authenticate" method="post" id="login-form">
-            <h2>Welcome back,</h2>
-            <label>
-              <span>Email</span>
-              <input type="text" name="email" required/>
-            </label>
-            <label>
-              <span>Password</span>
-              <input type="password" name="password" required/>
-            </label>
-            {{if .Error}}
-            <label>
-              <div class="alert alert-danger" role="alert">
-                {{ .Error }}
+
+  <body class="bg-gradient-primary">
+
+    <div class="container">
+
+      <!-- Outer Row -->
+      <div class="row justify-content-center">
+
+        <div class="col-xl-10 col-lg-12 col-md-9">
+
+          <div class="card o-hidden border-0 shadow-lg my-5">
+            <div class="card-body p-0">
+              <!-- Nested Row within Card Body -->
+              <div class="row">
+                <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+                <div class="col-lg-6">
+                  <div class="p-5">
+                    <div class="text-center">
+                      <h1 class="h4 text-gray-900 mb-4">Welcome back!</h1>
+                    </div>
+                    <form class="user" action="/authenticate" method="post" id="login-form">
+                      <div class="form-group">
+                        <input type="email" name="email" class="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter Email Address..." required>
+                      </div>
+                      <div class="form-group">
+                        <input type="password" name="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Password" required>
+                      </div>
+                      {{if .Error}}
+                      <div class="form-group">
+                        <div class="small alert alert-danger" role="alert">
+                          {{ .Error }}
+                        </div>
+                      <div>
+                      {{end}}
+                      <button type="submit" class="btn btn-primary btn-user btn-block" form="login-form">Sign In</button>
+                    </form>
+                    <hr>
+                    <div class="text-center">
+                      <a class="small" href="javascript:void();">Registrations are presently disabled.</a>
+                    </div>
+                  </div>
+                </div>
               </div>
-            <label>
-            {{end}}
-            <button type="submit" class="submit" form="login-form">Sign In</button>
-          </form>
-        </div>
-        <div class="sub-cont">
-          <div class="img">
-            <div class="img__text m--up">
-              <h2>New here?</h2>
-              <p>Unfortunately, sign-ups are currently disabled.</p>
-            </div>
-            <div class="img__text m--in">
-              <h2>One of us?</h2>
-              <p>If you already has an account, just sign in. We've missed you!</p>
-            </div>
-            <div class="img__btn">
-              <span class="m--up">Sign Up</span>
-              <span class="m--in">Sign In</span>
             </div>
           </div>
+
         </div>
+
       </div>
+
     </div>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="/assets/js/vendor/sb-admin-2.min.js"></script>
+
   </body>
 </html>
 {{end}}

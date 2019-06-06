@@ -2,6 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   entry: {
@@ -10,7 +11,7 @@ module.exports = {
   target: 'node',
   output: {
     path: path.resolve('./public/dist'),
-    filename: '[name].compiled.js'
+    filename: 'js/[name].compiled.js'
   },
   module: {
    rules: [
@@ -39,8 +40,18 @@ module.exports = {
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: 'client.min.css'
-    })
+      filename: 'css/client.min.css'
+    }),
+    new CopyWebpackPlugin([
+      {
+        from:'public/assets/image',
+        to:'image'
+      },
+      {
+        from:'public/assets/js/vendor',
+        to:'js/vendor'
+      } 
+    ]), 
   ],
   optimization: {
     minimizer: [
