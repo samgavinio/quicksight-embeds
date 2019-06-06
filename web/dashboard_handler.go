@@ -11,6 +11,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/aws/endpoints"
 	"github.com/aws/aws-sdk-go-v2/service/quicksight"
 	"github.com/aws/aws-sdk-go-v2/service/sts"
+	"github.com/gorilla/sessions"
 	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
 )
@@ -23,24 +24,36 @@ type CredentialsProvider struct {
 	*sts.Credentials
 }
 
-func (s CredentialsProvider) Retrieve() (aws.Credentials, error) {
-
-	if s.Credentials == nil {
-		return aws.Credentials{}, errors.New("sts credentials are nil")
-	}
-
-	return aws.Credentials{
-		AccessKeyID:     aws.StringValue(s.AccessKeyId),
-		SecretAccessKey: aws.StringValue(s.SecretAccessKey),
-		SessionToken:    aws.StringValue(s.SessionToken),
-		Expires:         aws.TimeValue(s.Expiration),
-	}, nil
-}
-
 func (h *DashboardHandler) Index(c echo.Context) (err error) {
 	sess, _ := session.Get("session", c)
 	email := sess.Values["user_email"].(string)
 
+	// If EmbedUrl is in the session, use it instead
+	qsSessionKey := fmt.Sprintf("quicksight_embed_url_%s", email)
+	if sess.Values[qsSessionKey] != nil {
+		return c.JSON(http.StatusOK, sess.Values[qsSessionKey].(string))
+	}
+
+	response, err := h.getDashboardUrl(email)
+	if err != nil {
+		fmt.Println(err)
+		return c.JSON(http.StatusBadRequest, map[string]string{"Error": "Bad Request."})
+	}
+
+	// Store the EmbedUrl in session to avoid succeeding Quicksight interactions.
+	sess.Options = &sessions.Options{
+		Path:     "/",
+		MaxAge:   3600,
+		HttpOnly: true,
+	}
+	sess.Values[qsSessionKey] = response.EmbedUrl
+	sess.Save(c.Request(), c.Response())
+
+	return c.JSON(http.StatusOK, response)
+}
+
+// Generates the Quicksight Embed URL. If the passed email does not yet exist in Quicksight a new user is provisioned.
+func (h *DashboardHandler) getDashboardUrl(email string) (qsEmbedResp *quicksight.GetDashboardEmbedUrlResponse, err error) {
 	useastCfg := h.Config.AWS.Config.Copy()
 	useastCfg.Region = endpoints.UsEast1RegionID
 	qs := quicksight.New(useastCfg)
@@ -93,11 +106,24 @@ func (h *DashboardHandler) Index(c echo.Context) (err error) {
 		DashboardId:  aws.String(h.Config.Quicksight.DashboardId),
 		IdentityType: quicksight.IdentityTypeIam,
 	})
-	qsEmbedResp, err := qsEmbedReq.Send(context.TODO())
+	qsEmbedResp, err = qsEmbedReq.Send(context.TODO())
 
 	if err != nil {
-		fmt.Println(err)
-		return c.JSON(http.StatusBadRequest, map[string]string{"Error": "Bad Request."})
+		return nil, err
 	}
-	return c.JSON(http.StatusOK, qsEmbedResp)
+
+	return qsEmbedResp, nil
+}
+
+func (s CredentialsProvider) Retrieve() (aws.Credentials, error) {
+	if s.Credentials == nil {
+		return aws.Credentials{}, errors.New("sts credentials are nil")
+	}
+
+	return aws.Credentials{
+		AccessKeyID:     aws.StringValue(s.AccessKeyId),
+		SecretAccessKey: aws.StringValue(s.SecretAccessKey),
+		SessionToken:    aws.StringValue(s.SessionToken),
+		Expires:         aws.TimeValue(s.Expiration),
+	}, nil
 }
