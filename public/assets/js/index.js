@@ -8,6 +8,7 @@ window.document.addEventListener('DOMContentLoaded', () => {
 });
 
 document.getElementById('change-parameter-btn').addEventListener('click', () => {
+    // Modify the parameter argument according to what your dashboard expects
     dashboard.updateParameter({
         InstanceID: document.getElementById('parameter-value').value
     });
