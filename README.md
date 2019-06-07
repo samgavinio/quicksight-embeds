@@ -11,8 +11,7 @@ Reference: https://aws.amazon.com/blogs/big-data/embed-interactive-dashboards-in
 * The web application must be hosted as a publicly accessible HTTPS application and the hostname must be correctly whitelisted in Quicksight. If running locally, consider tools like [ngrok.io](https://ngrok.com/) to expose your service with a public URL.
 * The Cognito user pool must be configured already and the relevant users must already exist in the user pool. The app presently does not support new registrations.
 * A Quicksight Group must already exist and must be given the appropriate permission to access the relevant dashboard.
-* An IAM Role must be configure that will allow invoking the appropriate quicksight permission. Refer to the [documentation](https://docs.aws.amazon.com/quicksight/latest/user/embedded-dashboards-with-iam-setup-step-2.html)
-
+* An IAM Role that will allow invoking the appropriate quicksight permission must already exist. Refer to the [documentation](https://docs.aws.amazon.com/quicksight/latest/user/embedded-dashboards-with-iam-setup-step-2.html)
 
 ### How to build
 
@@ -33,7 +32,7 @@ go build
 go test
 ```
 
-Configure the environment variables
+#### Configure the environment variables
 
 ```
 cp config.yml.example config.yml
@@ -49,7 +48,7 @@ QUICKSIGHT_GROUP_NAME: "embed-readers"
 QUICKSIGHT_DASHBOARD_ID: "xxxxx-xxx-xxxx-xxxx-xxxxxxx"
 ```
 
-Run the application
+#### Run the application
 
 ```
 // in development
@@ -57,6 +56,9 @@ go run main.go
 
 // access the app by going to [hostname]:1323 in your browser of choice.
 ```
+
+*Note: Pass-in a set of AWS credentials to the application that will be used to call STS assume role for the Quicksight reader role. If running on AWS, the recommended approach is to attach an IAM Role on your compute resource. Otherwise you may pass in your credentials as environment variables directly as described in the [documentation](https://docs.aws.amazon.com/sdk-for-go/v1/developer-guide/configuring-sdk.html#specifying-credentials).*
+
 
 ### License
 
