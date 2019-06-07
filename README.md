@@ -24,7 +24,7 @@ npm run build
 
 #### Building the backend Go components:
 
-This project uses [Go Modules](https://github.com/golang/go/wiki/Modules) to manage dependencies. Running the following commands should pull-in all the needed depencies
+This project uses [Go Modules](https://github.com/golang/go/wiki/Modules) to manage dependencies. Running either of the following commands should pull-in all the needed dependencies.
 
 ```
 go build
