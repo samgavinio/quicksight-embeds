@@ -1,5 +1,5 @@
-vendor
-node_modules
+/vendor
+/node_modules
 config/*.yml
-public/dist
+/public/dist
 quicksight-embeds
