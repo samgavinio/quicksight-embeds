@@ -11,7 +11,6 @@ import (
 	"github.com/aws/aws-sdk-go-v2/aws/endpoints"
 	"github.com/aws/aws-sdk-go-v2/service/quicksight"
 	"github.com/aws/aws-sdk-go-v2/service/sts"
-	"github.com/gorilla/sessions"
 	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
 )
@@ -41,12 +40,6 @@ func (h *DashboardHandler) Index(c echo.Context) (err error) {
 		}
 		url = *response.EmbedUrl
 
-		// Store the EmbedUrl in session to avoid succeeding Quicksight interactions.
-		sess.Options = &sessions.Options{
-			Path:     "/",
-			MaxAge:   3600,
-			HttpOnly: true,
-		}
 		sess.Values[qsSessionKey] = response.EmbedUrl
 		sess.Save(c.Request(), c.Response())
 	}

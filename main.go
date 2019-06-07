@@ -41,6 +41,7 @@ func main() {
 	// Authentication Handlers
 	e.GET("/", ah.Index)
 	e.POST("/authenticate", ah.SubmitLogin)
+	e.GET("/logout", ah.Logout)
 
 	// Dashboard handlers
 	e.GET("/dashboard", dh.Index, m.CognitoAuthentication(sessionStore, cfg))

@@ -2,6 +2,7 @@ package web
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
@@ -21,7 +22,15 @@ type loginRequest struct {
 }
 
 func (h *AuthHandler) Index(c echo.Context) (err error) {
+	h.clearSession(c)
+
 	return c.Render(http.StatusOK, "login", map[string]interface{}{})
+}
+
+func (h *AuthHandler) Logout(c echo.Context) (err error) {
+	h.clearSession(c)
+
+	return c.Redirect(http.StatusMovedPermanently, "/")
 }
 
 func (h *AuthHandler) SubmitLogin(c echo.Context) (err error) {
@@ -49,12 +58,20 @@ func (h *AuthHandler) SubmitLogin(c echo.Context) (err error) {
 	sess, _ := session.Get("session", c)
 	sess.Options = &sessions.Options{
 		Path:     "/",
-		MaxAge:   7200,
+		MaxAge:   3600,
 		HttpOnly: true,
 	}
 	sess.Values["cognito_access_token"] = resp.AuthenticationResult.AccessToken
 	sess.Values["user_email"] = request.Email
+	sess.Values[fmt.Sprintf("quicksight_embed_url_%s", request.Email)] = nil
 	sess.Save(c.Request(), c.Response())
 
 	return c.Redirect(http.StatusMovedPermanently, "/dashboard")
+}
+
+func (h *AuthHandler) clearSession(c echo.Context) {
+	// Quick and dirty: simply clear the session
+	sess, _ := session.Get("session", c)
+	sess.Options = &sessions.Options{MaxAge: -1}
+	sess.Save(c.Request(), c.Response())
 }
